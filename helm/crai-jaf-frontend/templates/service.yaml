@@ -1,0 +1,4 @@
+{{- include "adp-helm-library.cluster-ip-service" (list . "crai-jaf-frontend.cluster-ip-service") -}}
+{{- define "crai-jaf-frontend.cluster-ip-service" -}}
+{{- end -}}
+

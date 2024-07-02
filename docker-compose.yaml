@@ -1,0 +1,10 @@
+services:
+  ? crai-jaf-frontend
+  : build:
+      context: .
+      target: production
+    image: crai-jaf-frontend
+    container_name: crai-jaf-frontend
+    environment:
+      APPINSIGHTS_CLOUDROLE: crai-jaf-frontend-local
+      APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}

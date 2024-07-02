@@ -1,0 +1,3 @@
+{{- include "adp-helm-library.azure-ingress" (list . "crai-jaf-frontend.ingress") -}}
+{{- define "crai-jaf-frontend.ingress" -}}
+{{- end -}}

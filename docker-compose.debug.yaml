@@ -1,0 +1,3 @@
+services:
+  ? crai-jaf-frontend
+  : command: npm run start:debug
