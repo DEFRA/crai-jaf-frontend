@@ -1,5 +1,7 @@
 const { schema } = require('../../schemas/jaf-repository/upload')
 const { UploadModel } = require('../../models/jaf-repository/upload')
+const { uploadJaf } = require('../../api/jaf-repository')
+const { getFilenameComponents } = require('../../lib/file')
 
 module.exports = [
   {
@@ -30,6 +32,10 @@ module.exports = [
       }
     },
     handler: async (request, h) => {
+      const buffer = request.payload.jaf._data
+      const { filename } = request.payload.jaf.hapi
+      const { type } = getFilenameComponents(filename)
+      await uploadJaf(buffer, type)
       return h.redirect('/jaf-repository')
     }
   }

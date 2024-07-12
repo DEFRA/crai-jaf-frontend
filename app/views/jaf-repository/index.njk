@@ -2,6 +2,7 @@
 
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block beforeContent %}
   {{ govukBreadcrumbs({
@@ -25,10 +26,31 @@
 
       <h2 class="govuk-heading-m">JAFs</h2>
 
-      {% if model.jaf | length == 0 %}
+      {% if not model.jafs | length %}
         <div class="govuk-inset-text">
           No JAFs found
         </div>
+      {% endif %}
+
+      {% if model.jafs | length %}
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Job Title</th>
+              <th scope="col" class="govuk-table__header">Grade</th>
+              <th scope="col" class="govuk-table__header"></th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for jaf in model.jafs %}
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">{{ jaf.jobTitle }}</th>
+              <td class="govuk-table__cell">{{ jaf.grade }}</td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="#">Open</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       {% endif %}
     </div>
   </div>
