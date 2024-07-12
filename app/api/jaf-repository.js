@@ -11,7 +11,6 @@ const getJafById = async (id) => {
 }
 
 const uploadJaf = async (jaf, contentType) => {
-  console.log(contentType)
   const headers = {
     'content-type': contentType
   }
