@@ -20,6 +20,6 @@ const uploadJaf = async (jaf, contentType) => {
 
 module.exports = {
   getAllJafs,
-  uploadJaf,
-  getJafById
+  getJafById,
+  uploadJaf
 }
