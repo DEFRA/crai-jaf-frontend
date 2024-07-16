@@ -40,14 +40,20 @@
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">Job Title</th>
-              <th scope="col" class="govuk-table__header">Similarity Score</th>
+              <th scope="col" class="govuk-table__header">Summary</th>
+              <th scope="col" class="govuk-table__header">Deliverables</th>
+              <th scope="col" class="govuk-table__header">Responsibilities</th>
+              <th scope="col" class="govuk-table__header">Overall</th>
             </tr>
           </thead>
           <tbody class="govuk-table__body">
             {% for jaf in similarJafs %}
             <tr class="govuk-table__row">
               <th scope="row" class="govuk-table__header">{{ jaf.jafName }}</th>
-              <td class="govuk-table__cell">{{ jaf.cosine }}</td>
+              <td class="govuk-table__cell">{{ jaf.summaryCosine }}</td>
+              <td class="govuk-table__cell">{{ jaf.deliverablesCosine }}</td>
+              <td class="govuk-table__cell">{{ jaf.responsibilitiesCosine }}</td>
+              <td class="govuk-table__cell">{{ jaf.overallCosine }}</td>
             </tr>
             {% endfor %}
           </tbody>
