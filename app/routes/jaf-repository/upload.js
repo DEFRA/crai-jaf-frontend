@@ -35,6 +35,7 @@ module.exports = [
       const buffer = request.payload.jaf._data
       const { filename } = request.payload.jaf.hapi
       const { type } = getFilenameComponents(filename)
+
       await uploadJaf(buffer, type)
       return h.redirect('/jaf-repository')
     }
