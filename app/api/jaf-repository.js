@@ -18,8 +18,18 @@ const uploadJaf = async (jaf, contentType) => {
   return post(`${baseUrl}/jaf/repository`, jaf, headers)
 }
 
+const compareJaf = async (id) => {
+  return get(`${baseUrl}/jaf/compare/${id}`)
+}
+
+const compareJafs = async (id1, id2) => {
+  return get(`${baseUrl}/jaf/compare/${id1}/${id2}`)
+}
+
 module.exports = {
   getAllJafs,
   getJafById,
-  uploadJaf
+  uploadJaf,
+  compareJaf,
+  compareJafs
 }

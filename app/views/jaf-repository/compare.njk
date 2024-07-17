@@ -11,42 +11,45 @@
       },
       {
         text: "JAF Repository",
+        href: "/jaf-repository"
+      },
+      {
+        text: "Comparison",
         href: "#"
       }]
   }) }}
 {% endblock %}
 
 {% block content %}
-  <h1 class="govuk-heading-l">JAF Repository</h1>
+  <h1 class="govuk-heading-l">{{ jafComparison.name }}</h1>
+
+  
   
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-
-      <h2 class="govuk-heading-m">JAFs</h2>
-
-      {% if not model.jafs | length %}
+      <p class="govuk-body">{{ jafComparison.summary }}</p>
+      <h2 class="govuk-heading-m">Similar JAFs</h2>
+      {% if not jafComparison.response | length %}
         <div class="govuk-inset-text">
-          No JAFs found
+          No similar JAFs found
         </div>
       {% endif %}
 
-      {% if model.jafs | length %}
+      {% if jafComparison.response | length %}
         <table class="govuk-table">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">Job Title</th>
-              <th scope="col" class="govuk-table__header">Grade</th>
-              <th scope="col" class="govuk-table__header"></th>
-              <th scope="col" class="govuk-table__header"></th>
+              <th scope="col" class="govuk-table__header">Similarity Score</th>
+              <th scope="col" class="govuk-table__header">Summary</th>
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            {% for jaf in model.jafs %}
+            {% for jaf in jafComparison.response.response %}
             <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">{{ jaf.jobTitle }}</th>
-              <td class="govuk-table__cell">{{ jaf.grade }}</td>
-              <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/{{ jaf.id }}">Open</a></td>
-              <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/compare/{{ jaf.id }}">Compare</a></td>
+              <th scope="row" class="govuk-table__header">{{ jaf.name }}</th>
+              <td class="govuk-table__cell">{{ jaf.similarity_score }}</td>
+              <td class="govuk-table__cell">{{ jaf.summary }}</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -54,7 +57,4 @@
       {% endif %}
     </div>
   </div>
-  <a href="/jaf-repository/upload" class="govuk-button">
-    Upload new JAF
-  </a>
 {% endblock %}

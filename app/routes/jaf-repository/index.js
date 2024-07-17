@@ -16,7 +16,7 @@ module.exports = [
     path: '/jaf-repository/{id}',
     handler: async (request, h) => {
       const jaf = await getJafById(request.params.id)
-      console.log(jaf)
+
       return h.view('jaf-repository/jaf', jaf)
     }
   }
