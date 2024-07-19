@@ -15,6 +15,10 @@
       },
       {
         text: "Comparison",
+        href: `/jaf-repository/compare/${jafComparison.id}`
+      },
+      {
+        text: "Details",
         href: "#"
       }]
   }) }}
@@ -22,18 +26,11 @@
 
 {% block content %}
   <h1 class="govuk-heading-l">{{ jafComparison.name }}</h1>
-
+  <h2 class="govuk-heading-m">{{ jafComparison.name }}</h1>
   
   
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <p class="govuk-body">{{ jafComparison.summary.jobSummary }}</p>
-      <h2 class="govuk-heading-m">Similar JAFs</h2>
-      {% if not jafComparison.response | length %}
-        <div class="govuk-inset-text">
-          No similar JAFs found
-        </div>
-      {% endif %}
 
       {% if jafComparison.response | length %}
         <table class="govuk-table">
@@ -46,13 +43,13 @@
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            {% for res in jafComparison.response %}
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">{{ res.comparison_response.name }}</th>
-                <td class="govuk-table__cell">{{ res.comparison_response.similarity_score }}</td>
-                <td class="govuk-table__cell">{{ res.comparison_response.job_summary.match }}</td>
-                <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/compare/{{ jafComparison.id }}/{{ res.compared_jaf_id }}">Details</a></td>
-              </tr>
+            {% for jaf in jafComparison.response.response %}
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">{{ jaf.name }}</th>
+              <td class="govuk-table__cell">{{ jaf.similarity_score }}</td>
+              <td class="govuk-table__cell">{{ jaf.summary }}</td>
+              <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/compare/{{ jafComparison.id }}/{{ jaf.id }}">Details</a></td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>

@@ -6,20 +6,23 @@ module.exports = [
     method: 'GET',
     path: '/jaf-repository/compare/{id}',
     handler: async (request, h) => {
-      const { jaf } = await getJafById(request.params.id)
-      const response = await compareJaf(request.params.id)
+      const jafId = request.params.id
+      const { jaf } = await getJafById(jafId)
+      const response = await compareJaf(jafId)
 
       const jafComparison = new JafComparison(jaf, response)
+      console.log(jafComparison.response)
 
       return h.view('jaf-repository/compare', { jafComparison })
     }
   },
   {
     method: 'GET',
-    path: '/jaf-repository/compare/{id1}/{id2}',
+    path: '/jaf-repository/compare/{baseId}/{compareId}',
     handler: async (request, h) => {
-      const jaf = await getJafById(request.params.id1)
-      const response = await compareJafs(request.params.id1, request.params.id2)
+      const { baseId, compareId } = request.params
+      const jaf = await getJafById(baseId)
+      const response = await compareJafs(baseId, compareId)
 
       const jafComparison = new JafComparison(jaf, response)
 
