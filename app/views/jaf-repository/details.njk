@@ -1,6 +1,7 @@
 {% extends '_layout.njk' %}
 
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
 {% block beforeContent %}
   {{ govukBreadcrumbs({
@@ -15,7 +16,7 @@
       },
       {
         text: "Comparison",
-        href: `/jaf-repository/compare/${jafComparison.id}`
+        href: `/jaf-repository/compare/`
       },
       {
         text: "Details",
@@ -25,35 +26,66 @@
 {% endblock %}
 
 {% block content %}
-  <h1 class="govuk-heading-l">{{ jafComparison.name }}</h1>
-  <h2 class="govuk-heading-m">{{ jafComparison.name }}</h1>
+  <h1 class="govuk-heading-l">JAF Comparison</h1>
   
   
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-
-      {% if jafComparison.response | length %}
-        <table class="govuk-table">
-          <thead class="govuk-table__head">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Base JAF name
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ jafComparison.name }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Compared JAF name
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ jafComparison.comparedJafs.name }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Similarity score
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ jafComparison.comparedJafs.comparison_response.similarity_score }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Comparison summary
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ jafComparison.comparedJafs.comparison_response.summary }}
+          </dd>
+        </div>
+      </dl>
+      <h1 class="govuk-heading-m">Job Summary</h1>
+      <p class="govuk-body">{{ jafComparison.comparedJafs.comparison_response.job_summary.reasoning }}</p>
+      <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">Main activities</caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Activity name</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Importance score</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Frequency score</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {%for activity in jafComparison.comparedJafs.comparison_response.main_activities %}
             <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header">Job Title</th>
-              <th scope="col" class="govuk-table__header">Similarity Score</th>
-              <th scope="col" class="govuk-table__header">Summary</th>
-              <th scope="col" class="govuk-table__header"></th>
+              <th scope="row" class="govuk-table__header">{{ activity.activity }}</th>
+              <td class="govuk-table__cell govuk-table__cell--numeric">{{ activity.importance_score }}</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">{{ activity.frequency_score }}</td>
             </tr>
-          </thead>
-          <tbody class="govuk-table__body">
-            {% for jaf in jafComparison.response.response %}
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">{{ jaf.name }}</th>
-              <td class="govuk-table__cell">{{ jaf.similarity_score }}</td>
-              <td class="govuk-table__cell">{{ jaf.summary }}</td>
-              <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/compare/{{ jafComparison.id }}/{{ jaf.id }}">Details</a></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 {% endblock %}

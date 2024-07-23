@@ -27,31 +27,29 @@
   
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <p class="govuk-body">{{ jafComparison.summary.jobSummary }}</p>
+      <p class="govuk-body">{{ jafComparison.jobSummary }}</p>
       <h2 class="govuk-heading-m">Similar JAFs</h2>
-      {% if not jafComparison.response | length %}
+      {% if not jafComparison.comparedJafs | length %}
         <div class="govuk-inset-text">
           No similar JAFs found
         </div>
       {% endif %}
 
-      {% if jafComparison.response | length %}
+      {% if jafComparison.comparedJafs | length %}
         <table class="govuk-table">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">Job Title</th>
               <th scope="col" class="govuk-table__header">Similarity Score</th>
-              <th scope="col" class="govuk-table__header">Summary</th>
               <th scope="col" class="govuk-table__header"></th>
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            {% for res in jafComparison.response %}
+            {% for comparedJaf in jafComparison.comparedJafs %}
               <tr class="govuk-table__row">
-                <td class="govuk-table__cell">{{ res.comparison_response.name }}</th>
-                <td class="govuk-table__cell">{{ res.comparison_response.similarity_score }}</td>
-                <td class="govuk-table__cell">{{ res.comparison_response.job_summary.match }}</td>
-                <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/compare/{{ jafComparison.id }}/{{ res.compared_jaf_id }}">Details</a></td>
+                <td class="govuk-table__cell">{{ comparedJaf.name }}</th>
+                <td class="govuk-table__cell">{{ comparedJaf.comparison_response.similarity_score }}</td>
+                <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/compare/{{ jafComparison.id }}/{{ comparedJaf.compared_jaf_id }}">Details</a></td>
               </tr>
             {% endfor %}
           </tbody>

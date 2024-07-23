@@ -7,11 +7,10 @@ module.exports = [
     path: '/jaf-repository/compare/{id}',
     handler: async (request, h) => {
       const jafId = request.params.id
-      const { jaf } = await getJafById(jafId)
-      const response = await compareJaf(jafId)
+      const jaf = await getJafById(jafId)
+      const comparedJafs = await compareJaf(jafId)
 
-      const jafComparison = new JafComparison(jaf, response)
-      console.log(jafComparison.response)
+      const jafComparison = new JafComparison(jaf, comparedJafs)
 
       return h.view('jaf-repository/compare', { jafComparison })
     }
@@ -22,11 +21,11 @@ module.exports = [
     handler: async (request, h) => {
       const { baseId, compareId } = request.params
       const jaf = await getJafById(baseId)
-      const response = await compareJafs(baseId, compareId)
+      const comparedJaf = await compareJafs(baseId, compareId)
 
-      const jafComparison = new JafComparison(jaf, response)
-
-      return h.view('jaf-repository/compare', { jafComparison })
+      const jafComparison = new JafComparison(jaf, comparedJaf)
+      console.log(jafComparison)
+      return h.view('jaf-repository/details', { jafComparison })
     }
   }
 ]

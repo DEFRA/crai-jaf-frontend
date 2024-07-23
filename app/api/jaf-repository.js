@@ -22,8 +22,8 @@ const compareJaf = async (id) => {
   return get(`${baseUrl}/jaf/compare/${id}`)
 }
 
-const compareJafs = async (id1, id2) => {
-  return get(`${baseUrl}/jaf/compare/${id1}/${id2}`)
+const compareJafs = async (baseId, comparedId) => {
+  return get(`${baseUrl}/jaf/compare/${baseId}/${comparedId}`)
 }
 
 module.exports = {
