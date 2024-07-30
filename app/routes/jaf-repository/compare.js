@@ -10,6 +10,8 @@ module.exports = [
       const jaf = await getJafById(jafId)
       const comparedJafs = await compareJaf(jafId)
 
+      console.log(comparedJafs)
+
       const jafComparison = new JafComparison(jaf, comparedJafs)
 
       return h.view('jaf-repository/compare', { jafComparison })

@@ -40,7 +40,6 @@
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">Job Title</th>
-              <th scope="col" class="govuk-table__header">Similarity Score</th>
               <th scope="col" class="govuk-table__header"></th>
             </tr>
           </thead>
@@ -48,7 +47,6 @@
             {% for comparedJaf in jafComparison.comparedJafs %}
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">{{ comparedJaf.name }}</th>
-                <td class="govuk-table__cell">{{ comparedJaf.comparison_response.similarity_score }}</td>
                 <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/compare/{{ jafComparison.id }}/{{ comparedJaf.compared_jaf_id }}">Details</a></td>
               </tr>
             {% endfor %}
