@@ -162,7 +162,7 @@
           {% endfor %}
         </div>
         <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="tasks">
-          <h2 class="govuk-heading-l">Tasks</h2>
+          <h2 class="govuk-heading-m">Tasks</h2>
           {% for task in jafComparison.comparedJafs.comparison_response.linkage.tasks %}
             <table class="govuk-table">
               <caption class="govuk-table__caption govuk-table__caption--s">{{ task.task }}</caption>
@@ -211,27 +211,23 @@
 {% endblock %}
 
 {% block bodyEnd %}
+  {{ super() }}
   <script>
     function handleSort(button) {
       const th = button.parentElement;
       const table = th.closest('table');
       const currentSort = th.getAttribute('aria-sort');
       const newSort = (currentSort === 'ascending') ? 'descending' : 'ascending';
-
       table.querySelectorAll('th[aria-sort]').forEach(th => th.setAttribute('aria-sort', 'none'));
       th.setAttribute('aria-sort', newSort);
-
       const columnIndex = Array.from(th.parentElement.children).indexOf(th);
-
       const tbody = table.querySelector('tbody');
       const rows = Array.from(tbody.querySelectorAll('tr'));
-
       const sortedRows = rows.sort((a, b) => {
         const aValue = parseFloat(a.children[columnIndex].textContent);
         const bValue = parseFloat(b.children[columnIndex].textContent);
         return newSort === 'ascending' ? aValue - bValue : bValue - aValue;
       });
-
       tbody.innerHTML = '';
       sortedRows.forEach(row => tbody.appendChild(row));
     }
