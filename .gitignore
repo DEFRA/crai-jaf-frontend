@@ -12,5 +12,3 @@ test-output
 dist
 *.tgz
 *.lock
-# Generated views
-_layout.njk
