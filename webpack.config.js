@@ -14,6 +14,9 @@ module.exports = {
   entry: {
     core: {
       import: ['./app/frontend/js/index.js', './app/frontend/css/application.scss']
+    },
+    sortableTable: {
+      import: ['./app/frontend/js/sortable-table.js']
     }
   },
   mode: isDev ? 'development' : 'production',

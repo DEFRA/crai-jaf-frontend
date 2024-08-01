@@ -2,7 +2,6 @@
 
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "govuk/components/select/macro.njk" import govukSelect %}
 
 {% block beforeContent %}
   {{ govukBreadcrumbs({
@@ -54,10 +53,10 @@
           <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Task</th>
             <th scope="col" class="govuk-table__header govuk-table__header--numeric" aria-sort="none">
-              <button onclick="handleSort(this)">Importance</button>
+              <button>Importance</button>
             </th>
             <th scope="col" class="govuk-table__header govuk-table__header--numeric" aria-sort="none">
-              <button onclick="handleSort(this)">Frequency</button>   
+              <button>Frequency</button>   
             </th>
           </tr>
         </thead>
@@ -77,18 +76,18 @@
           <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Competency</th>
             <th scope="col" class="govuk-table__header govuk-table__header--numeric" aria-sort="none">
-              <button onclick="handleSort(this)">Need</button>  
+              <button>Need</button>  
             </th>
             <th scope="col" class="govuk-table__header govuk-table__header--numeric" aria-sort="none">
-              <button onclick="handleSort(this)">Importance</button>    
+              <button>Importance</button>    
             </th>
             <th scope="col" class="govuk-table__header govuk-table__header--numeric" aria-sort="none">
-              <button onclick="handleSort(this)">Value</button>  
+              <button>Value</button>  
             </th>
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          {%for competency in jafComparison.comparedJafs.comparison_response.competencies.competency_comparison %}
+          {% for competency in jafComparison.comparedJafs.comparison_response.competencies %}
             <tr class="govuk-table__row">
               <td class="govuk-table__cell">{{ competency.competency }}</th>
               <td class="govuk-table__cell govuk-table__cell--numeric">{{ competency.need_score }}</td>
@@ -103,11 +102,6 @@
           Linkage
         </h2>
         <ul class="govuk-tabs__list">
-          <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-            <a class="govuk-tabs__tab" href="#tasks-competencies">
-              Tasks and Competencies
-            </a>
-          </li>
           <li class="govuk-tabs__list-item">
             <a class="govuk-tabs__tab" href="#tasks">
               Tasks
@@ -119,7 +113,7 @@
             </a>
           </li>
         </ul>
-        <div class="govuk-tabs__panel" id="tasks-competencies">
+        <div class="govuk-tabs__panel" id="tasks">
           <h2 class="govuk-heading-m">Tasks</h2>
           {% for task in jafComparison.comparedJafs.comparison_response.linkage.tasks %}
             <table class="govuk-table">
@@ -127,56 +121,14 @@
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">Competency</th>
-                  <th scope="col" class="govuk-table__header">Importance</th>
+                  <th scope="col" class="govuk-table__header govuk-table__header--numeric">Importance</th>
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
                 {% for competency in task.competencies %}
                   <tr class="govuk-table__row">
                     <td class="govuk-table__cell">{{ competency }}</td>
-                    <td class="govuk-table__cell">?</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% endfor %}
-          <h2 class="govuk-heading-m">Competencies</h2>
-          {% for competency in jafComparison.comparedJafs.comparison_response.linkage.competencies %}
-            <table class="govuk-table">
-              <caption class="govuk-table__caption govuk-table__caption--s">{{ competency.competency }}</caption>
-              <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                  <th scope="col" class="govuk-table__header">Task</th>
-                  <th scope="col" class="govuk-table__header">Importance</th>
-                </tr>
-              </thead>
-              <tbody class="govuk-table__body">
-                {% for task in competency.tasks %}
-                  <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">{{ task }}</td>
-                    <td class="govuk-table__cell">?</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% endfor %}
-        </div>
-        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="tasks">
-          <h2 class="govuk-heading-m">Tasks</h2>
-          {% for task in jafComparison.comparedJafs.comparison_response.linkage.tasks %}
-            <table class="govuk-table">
-              <caption class="govuk-table__caption govuk-table__caption--s">{{ task.task }}</caption>
-              <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                  <th scope="col" class="govuk-table__header">Competency</th>
-                  <th scope="col" class="govuk-table__header">Importance</th>
-                </tr>
-              </thead>
-              <tbody class="govuk-table__body">
-                {% for competency in task.competencies %}
-                  <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">{{ competency }}</td>
-                    <td class="govuk-table__cell">?</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">?</td>
                   </tr>
                 {% endfor %}
               </tbody>
@@ -191,14 +143,14 @@
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">Task</th>
-                  <th scope="col" class="govuk-table__header">Importance</th>
+                  <th scope="col" class="govuk-table__header govuk-table__header--numeric">Importance</th>
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
                 {% for task in competency.tasks %}
                   <tr class="govuk-table__row">
                     <td class="govuk-table__cell">{{ task }}</td>
-                    <td class="govuk-table__cell">?</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">?</td>
                   </tr>
                 {% endfor %}
               </tbody>
@@ -212,24 +164,5 @@
 
 {% block bodyEnd %}
   {{ super() }}
-  <script>
-    function handleSort(button) {
-      const th = button.parentElement;
-      const table = th.closest('table');
-      const currentSort = th.getAttribute('aria-sort');
-      const newSort = (currentSort === 'ascending') ? 'descending' : 'ascending';
-      table.querySelectorAll('th[aria-sort]').forEach(th => th.setAttribute('aria-sort', 'none'));
-      th.setAttribute('aria-sort', newSort);
-      const columnIndex = Array.from(th.parentElement.children).indexOf(th);
-      const tbody = table.querySelector('tbody');
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-      const sortedRows = rows.sort((a, b) => {
-        const aValue = parseFloat(a.children[columnIndex].textContent);
-        const bValue = parseFloat(b.children[columnIndex].textContent);
-        return newSort === 'ascending' ? aValue - bValue : bValue - aValue;
-      });
-      tbody.innerHTML = '';
-      sortedRows.forEach(row => tbody.appendChild(row));
-    }
-  </script>
+  <script src="{{ getAssetPath('sortableTable.js') }}"></script>
 {% endblock %}

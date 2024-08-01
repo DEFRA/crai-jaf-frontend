@@ -14,7 +14,7 @@ const context = () => {
     pageTitle: 'JAF Analysis Tool',
     assetBasePath: '/static',
     getAssetPath: (asset) => {
-      return `static/${manifest[asset]}`
+      return `/static/${manifest[asset]}`
     }
   }
 }
