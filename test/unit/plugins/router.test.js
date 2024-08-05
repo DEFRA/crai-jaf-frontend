@@ -1,6 +1,6 @@
 const { globSync } = require('glob')
 
-const routes = globSync('../../../app/routes/**/*.js')
+const routes = globSync('../../../app/routes/**/*.js', { cwd: __dirname })
 
 const mockRoutes = []
 
