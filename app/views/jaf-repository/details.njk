@@ -34,7 +34,7 @@
           <dt class="govuk-summary-list__key">
             Base JAF name
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value govuk-!-text-align-right">
             {{ jafComparison.name }}
           </dd>
         </div>
@@ -42,11 +42,21 @@
           <dt class="govuk-summary-list__key">
             Compared JAF name
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value govuk-!-text-align-right">
             {{ jafComparison.comparedJafs.name }}
           </dd>
         </div>
       </dl>
+      <p class="govuk-body">{{ jafComparison.comparedJafs.comparison_response.summary.summary }}</p>
+      {% if jafComparison.comparedJafs.comparison_response.summary.key_differences | length %}
+        <h2 class="govuk-heading-m">Key Differences</h2>
+        <ul class="govuk-list govuk-list--bullet">
+        {% for difference in jafComparison.comparedJafs.comparison_response.summary.key_differences %}     
+            <li>{{ difference }}</li>
+        {% endfor %}
+        </ul>
+          
+      {% endif %}
       <table class="govuk-table" id="task-table">
         <caption class="govuk-table__caption govuk-table__caption--m">Tasks</caption>
         <thead class="govuk-table__head">

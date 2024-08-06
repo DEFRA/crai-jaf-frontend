@@ -34,19 +34,20 @@
           No similar JAFs found
         </div>
       {% endif %}
-
       {% if jafComparison.comparedJafs | length %}
         <table class="govuk-table">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">Job Title</th>
+              <th scope="col" class="govuk-table__header govuk-table__header--numeric">Similarity</th>
               <th scope="col" class="govuk-table__header"></th>
             </tr>
           </thead>
           <tbody class="govuk-table__body">
             {% for comparedJaf in jafComparison.comparedJafs %}
               <tr class="govuk-table__row">
-                <td class="govuk-table__cell">{{ comparedJaf.name }}</th>
+                <td class="govuk-table__cell">{{ comparedJaf.name }}</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">{{ comparedJaf.comparison_response.summary.similarity_score }}</td>
                 <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/compare/{{ jafComparison.id }}/{{ comparedJaf.compared_jaf_id }}">Details</a></td>
               </tr>
             {% endfor %}

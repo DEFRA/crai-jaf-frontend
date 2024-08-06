@@ -9,13 +9,6 @@ class JafComparison {
   }
 }
 
-// const determineOverallMatch = (objects, threshold) => {
-//   const matchCount = objects.filter(obj => obj.match === true).length
-//   const matchPercentage = matchCount / objects.length
-
-//   return matchPercentage >= threshold
-// }
-
 module.exports = {
   JafComparison
 }

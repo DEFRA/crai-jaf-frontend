@@ -37,7 +37,6 @@
               <th scope="col" class="govuk-table__header">Job Title</th>
               <th scope="col" class="govuk-table__header">Grade</th>
               <th scope="col" class="govuk-table__header"></th>
-              <th scope="col" class="govuk-table__header"></th>
             </tr>
           </thead>
           <tbody class="govuk-table__body">
@@ -45,7 +44,6 @@
             <tr class="govuk-table__row">
               <th scope="row" class="govuk-table__header">{{ jaf.jobTitle }}</th>
               <td class="govuk-table__cell">{{ jaf.grade }}</td>
-              <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/{{ jaf.id }}">Open</a></td>
               <td class="govuk-table__cell"><a class="govuk-link" href="/jaf-repository/compare/{{ jaf.id }}">Compare</a></td>
             </tr>
             {% endfor %}

@@ -8,9 +8,8 @@ module.exports = [
     handler: async (request, h) => {
       const jafId = request.params.id
       const jaf = await getJafById(jafId)
-      const comparedJafs = await compareJaf(jafId)
 
-      console.log(comparedJafs)
+      const comparedJafs = await compareJaf(jafId)
 
       const jafComparison = new JafComparison(jaf, comparedJafs)
 
@@ -26,7 +25,7 @@ module.exports = [
       const comparedJaf = await compareJafs(baseId, compareId)
 
       const jafComparison = new JafComparison(jaf, comparedJaf)
-      console.log(jafComparison)
+
       return h.view('jaf-repository/details', { jafComparison })
     }
   }
