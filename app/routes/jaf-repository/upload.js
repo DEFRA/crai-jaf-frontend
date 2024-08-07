@@ -1,6 +1,6 @@
 const { schema } = require('../../schemas/jaf-repository/upload')
 const { UploadModel } = require('../../models/jaf-repository/upload')
-const { uploadJaf } = require('../../api/jaf-repository')
+const { uploadJaf, getProfessions } = require('../../api/jaf-repository')
 const { getFilenameComponents } = require('../../lib/file')
 
 module.exports = [
@@ -8,7 +8,11 @@ module.exports = [
     method: 'GET',
     path: '/jaf-repository/upload',
     handler: async (request, h) => {
-      return h.view('jaf-repository/upload')
+      const { professions } = await getProfessions()
+     
+      const model = new UploadModel(professions)
+
+      return h.view('jaf-repository/upload', { model })
     }
   },
   {
@@ -25,8 +29,11 @@ module.exports = [
       },
       validate: {
         payload: schema,
-        failAction: (request, h, err) => {
-          const model = new UploadModel(err)
+        failAction: async (request, h, err) => {
+          const { professions } = await getProfessions()
+
+          const model = new UploadModel(professions, err)
+
           return h.view('jaf-repository/upload', { model }).takeover(400)
         }
       }
@@ -35,8 +42,9 @@ module.exports = [
       const buffer = request.payload.jaf._data
       const { filename } = request.payload.jaf.hapi
       const { type } = getFilenameComponents(filename)
+      const { profession } = request.payload
 
-      await uploadJaf(buffer, type)
+      await uploadJaf(buffer, profession, type)
       return h.redirect('/jaf-repository')
     }
   }

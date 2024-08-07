@@ -1,8 +1,15 @@
 class UploadModel {
-  constructor (err) {
-    this.error = {
-      text: err.details[0].message
+  constructor(professions, err) {
+    if (err) {
+      this.error = {
+        text: err.details[0].message
+      }
     }
+
+    this.professions = professions.map(profession => ({
+      value: profession,
+      text: profession
+    }))
   }
 }
 

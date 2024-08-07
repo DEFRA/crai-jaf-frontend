@@ -23,7 +23,8 @@ const schema = Joi.object({
         'any.invalid': 'The selected file must be a PDF or DOCX document'
       }).custom(validateExtension)
     }).required().unknown()
-  }).required().unknown()
+  }).required().unknown(),
+  profession: Joi.string().required()
 })
 
 module.exports = {

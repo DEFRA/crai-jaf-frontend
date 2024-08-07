@@ -3,6 +3,7 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 
 {% block beforeContent %}
   {{ govukBreadcrumbs({
@@ -33,6 +34,15 @@
       label: {
         text: "Choose JAF (pdf or docx) to upload"
       }
+    }) }}
+
+    {{ govukSelect({
+      id: "profession",
+      name: "profession",
+      label: {
+        text: "JAF Profession"
+      },
+      items: model.professions
     }) }}
 
     {{ govukButton({
