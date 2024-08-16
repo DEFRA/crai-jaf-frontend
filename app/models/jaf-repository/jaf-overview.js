@@ -1,11 +1,23 @@
 class JafOverview {
   constructor (jafs, professions, selectedProfession) {
-    this.jafs = jafs.map((jaf) => ({
-      id: jaf.id,
-      jobTitle: jaf.summary.details.job_title,
-      grade: jaf.summary.details.grade,
-      profession: jaf.profession
-    }))
+    this.jafs = jafs.reduce((acc, jaf) => {
+      const profession = jaf.profession
+      const jobTitle = jaf.summary.details.job_title
+      const grade = jaf.summary.details.grade
+
+      if (!acc[profession]) {
+        acc[profession] = []
+      }
+
+      acc[profession].push({
+        id: jaf.id,
+        jobTitle,
+        grade,
+        profession
+      })
+
+      return acc
+    }, {})
 
     this.professions = professions.map((profession) => {
       const isSelected = profession === selectedProfession
