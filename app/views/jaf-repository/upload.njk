@@ -1,0 +1,52 @@
+{% extends '_layout.njk' %}
+
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/"
+      },
+      {
+        text: "JAF Repository",
+        href: "/jaf-repository"
+      },
+      {
+        text: "Upload",
+        href: "#"
+      }]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <h1 class="govuk-heading-l">Upload new JAF</h1>
+
+  <form action="/jaf-repository/upload" method="post" enctype="multipart/form-data" novalidate="novalidate">
+    {{ govukFileUpload({
+      errorMessage: model.error,
+      id: "jaf-upload",
+      name: "jaf",
+      label: {
+        text: "Choose JAF (pdf or docx) to upload"
+      }
+    }) }}
+
+    {{ govukSelect({
+      id: "profession",
+      name: "profession",
+      label: {
+        text: "JAF Profession"
+      },
+      items: model.professions
+    }) }}
+
+    {{ govukButton({
+      text: "Upload"
+    }) }}
+  </form>
+{% endblock %}

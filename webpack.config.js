@@ -1,23 +1,23 @@
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const glob = require('glob')
+const CopyPlugin = require('copy-webpack-plugin')
+const WebpackAssetsManifest = require('webpack-assets-manifest')
 
 const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
 
-console.log(`Running webpack in ${isDev ? 'development' : 'production'} mode`)
-
-const entrypointExtensionsDenyList = new Set([
-  '.scss',
-  '.css'
-])
+const govukFrontendPath = path.dirname(
+  require.resolve('govuk-frontend/package.json')
+)
 
 module.exports = {
   entry: {
-    core: glob
-      .sync('./app/frontend/**', { nodir: true })
-      .filter(fileName => !entrypointExtensionsDenyList.has(path.extname(fileName)))
+    core: {
+      import: ['./app/frontend/js/index.js', './app/frontend/css/application.scss']
+    },
+    sortableTable: {
+      import: ['./app/frontend/js/sortable-table.js']
+    }
   },
   mode: isDev ? 'development' : 'production',
   module: {
@@ -50,14 +50,21 @@ module.exports = {
         test: /\.(png|svg|jpg|gif|ico)$/,
         type: 'asset/resource',
         generator: {
-          filename: 'images/[name][ext]'
+          filename: 'assets/images/[name][ext]'
         }
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         type: 'asset/resource',
         generator: {
-          filename: 'fonts/[name][ext]'
+          filename: 'assets/fonts/[name][ext]'
+        }
+      },
+      {
+        test: /\.(ico)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/images/[name][ext]'
         }
       }
     ]
@@ -67,16 +74,28 @@ module.exports = {
     path: path.resolve(__dirname, 'app/dist'),
     library: '[name]'
   },
+  resolve: {
+    alias: {
+      'dist/assets': path.join(govukFrontendPath, 'dist/govuk/assets')
+    }
+  },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      inject: false,
-      filename: '../views/_layout.njk',
-      template: 'app/views/_layout.template.njk',
-      chunks: ['core']
-    }),
+    new WebpackAssetsManifest(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[fullhash].css'
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.join(govukFrontendPath, 'dist/govuk/assets'),
+          to: 'assets'
+        },
+        {
+          from: 'app/frontend/images',
+          to: 'assets/images'
+        }
+      ]
     })
   ]
 }

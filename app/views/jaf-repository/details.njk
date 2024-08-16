@@ -1,0 +1,178 @@
+{% extends '_layout.njk' %}
+
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/"
+      },
+      {
+        text: "JAF Repository",
+        href: "/jaf-repository"
+      },
+      {
+        text: "Comparison",
+        href: `/jaf-repository/compare/`
+      },
+      {
+        text: "Details",
+        href: "#"
+      }]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <h1 class="govuk-heading-l">JAF Comparison</h1>  
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Base JAF name
+          </dt>
+          <dd class="govuk-summary-list__value govuk-!-text-align-right">
+            {{ jafComparison.name }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Compared JAF name
+          </dt>
+          <dd class="govuk-summary-list__value govuk-!-text-align-right">
+            {{ jafComparison.comparedJafs.name }}
+          </dd>
+        </div>
+      </dl>
+      <p class="govuk-body">{{ jafComparison.comparedJafs.comparison_response.summary.summary }}</p>
+      {% if jafComparison.comparedJafs.comparison_response.summary.key_differences | length %}
+        <h2 class="govuk-heading-m">Key Differences</h2>
+        <ul class="govuk-list govuk-list--bullet">
+        {% for difference in jafComparison.comparedJafs.comparison_response.summary.key_differences %}     
+            <li>{{ difference }}</li>
+        {% endfor %}
+        </ul>
+          
+      {% endif %}
+      <table class="govuk-table" id="task-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">Tasks</caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Task</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric" aria-sort="none">
+              <button>Importance</button>
+            </th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric" aria-sort="none">
+              <button>Frequency</button>   
+            </th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {%for task in jafComparison.comparedJafs.comparison_response.tasks %}
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">{{ task.task }}</th>
+              <td class="govuk-table__cell govuk-table__cell--numeric">{{ task.importance_score }}</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">{{ task.frequency_score }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <table class="govuk-table" id="competency-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">Competencies</caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Competency</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric" aria-sort="none">
+              <button>Need</button>  
+            </th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric" aria-sort="none">
+              <button>Importance</button>    
+            </th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric" aria-sort="none">
+              <button>Value</button>  
+            </th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% for competency in jafComparison.comparedJafs.comparison_response.competencies %}
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">{{ competency.competency }}</th>
+              <td class="govuk-table__cell govuk-table__cell--numeric">{{ competency.need_score }}</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">{{ competency.importance_score }}</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">{{ competency.value_score }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="govuk-tabs" data-module="govuk-tabs">
+        <h2 class="govuk-tabs__title">
+          Linkage
+        </h2>
+        <ul class="govuk-tabs__list">
+          <li class="govuk-tabs__list-item">
+            <a class="govuk-tabs__tab" href="#tasks">
+              Tasks
+            </a>
+          </li>
+          <li class="govuk-tabs__list-item">
+            <a class="govuk-tabs__tab" href="#competencies">
+              Competencies
+            </a>
+          </li>
+        </ul>
+        <div class="govuk-tabs__panel" id="tasks">
+          <h2 class="govuk-heading-m">Tasks</h2>
+          {% for task in jafComparison.comparedJafs.comparison_response.linkage.tasks %}
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-table__caption--s">{{ task.task }}</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">Competency</th>
+                  <th scope="col" class="govuk-table__header govuk-table__header--numeric">Importance</th>
+                </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                {% for competency in task.competencies %}
+                  <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">{{ competency }}</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">?</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endfor %}
+        </div>
+        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="competencies">
+          <h2 class="govuk-heading-m">Competencies</h2>
+          {% for competency in jafComparison.comparedJafs.comparison_response.linkage.competencies %}
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-table__caption--s">{{ competency.competency }}</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">Task</th>
+                  <th scope="col" class="govuk-table__header govuk-table__header--numeric">Importance</th>
+                </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                {% for task in competency.tasks %}
+                  <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">{{ task }}</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">?</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script src="{{ getAssetPath('sortableTable.js') }}"></script>
+{% endblock %}

@@ -1,6 +1,23 @@
 const path = require('path')
 const nunjucks = require('nunjucks')
 const pkg = require('../../package.json')
+const { readFileSync } = require('fs')
+
+const manifestPath = path.join(__dirname, '../dist/assets-manifest.json')
+
+const context = () => {
+  const manifest = JSON.parse(readFileSync(manifestPath))
+
+  return {
+    appVersion: pkg.version,
+    serviceName: 'JAF Analysis Tool',
+    pageTitle: 'JAF Analysis Tool',
+    assetBasePath: '/static',
+    getAssetPath: (asset) => {
+      return `/static/${manifest[asset]}`
+    }
+  }
+}
 
 module.exports = {
   plugin: require('@hapi/vision'),
@@ -31,12 +48,6 @@ module.exports = {
     },
     path: '../views',
     relativeTo: __dirname,
-    context: {
-      appVersion: pkg.version,
-      assetPath: '/static',
-      govukAssetPath: '/assets',
-      serviceName: 'crai-jaf-frontend',
-      pageTitle: 'crai-jaf-frontend - GOV.UK'
-    }
+    context
   }
 }
