@@ -21,7 +21,7 @@ class JafOverview {
 
     this.professions = professions.map((profession) => {
       const isSelected = profession === selectedProfession
-      
+
       return {
         value: profession,
         text: profession,

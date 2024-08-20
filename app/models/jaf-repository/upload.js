@@ -1,5 +1,5 @@
 class UploadModel {
-  constructor(professions, err) {
+  constructor (professions, err) {
     if (err) {
       this.error = {
         text: err.details[0].message

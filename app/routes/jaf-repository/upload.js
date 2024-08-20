@@ -9,7 +9,7 @@ module.exports = [
     path: '/jaf-repository/upload',
     handler: async (request, h) => {
       const { professions } = await getProfessions()
-     
+
       const model = new UploadModel(professions)
 
       return h.view('jaf-repository/upload', { model })
